@@ -1,0 +1,10 @@
+import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
+
+const SECRET_KEY = "your_secret_key"; 
+
+  
+export const generateToken = (userId: number) => {
+    const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: "1h" });
+    return token;
+}

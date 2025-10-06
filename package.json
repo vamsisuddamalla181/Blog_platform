@@ -1,0 +1,49 @@
+{
+  "name": "blog_platform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch dist/index.js",
+    "build": "rimraf ./dist && tsc",
+    "migrations:gen": "drizzle-kit generate",
+    "migrations:push": "drizzle-kit migrate",
+    "migrations:up": "drizzle-kit up",
+    "start": "tsx watch ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vamsisuddamalla181/Blog_platform.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vamsisuddamalla181/Blog_platform/issues"
+  },
+  "homepage": "https://github.com/vamsisuddamalla181/Blog_platform#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.3",
+    "drizzle-kit": "^0.31.5",
+    "drizzle-orm": "^0.44.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "node": "^24.9.0",
+    "nodemon": "^3.1.10",
+    "npx": "^10.2.2",
+    "pg": "^8.16.3",
+    "rimraf": "^6.0.1",
+    "tsc": "^2.0.4",
+    "tsx": "^4.20.6",
+    "twilio": "^5.10.2",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

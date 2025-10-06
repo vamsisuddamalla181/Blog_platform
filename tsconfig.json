@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+      "src"
+, "src/db/schema/commentSchema.ts", "db", "src/db/schema/likes.ts", "src/db/schema/postSchema.ts", "src/db/schema/userSchema.ts"    ]
+}
