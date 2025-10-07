@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import userrouter from "./routes/userRoutes"
 import postrouter from "./routes/postRoutes" 
+import likerouter from "./routes/likeRoutes"
 dotenv.config()
 const app=express()
 app.use(express.json())
@@ -14,6 +15,7 @@ app.get("/get",(req,res)=>{
 
 app.use("/user",userrouter)
 app.use("/post",postrouter)
+app.use("/like",likerouter)
 app.listen(PORT,()=>{
     console.log(`server is running on the ${PORT}`)
 })
