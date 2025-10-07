@@ -1,5 +1,5 @@
 {
-  "id": "0a5f5681-4f5d-4a63-b853-70dc315fbc32",
+  "id": "e14646cc-b348-4271-baa0-51ce35958e29",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -11,18 +11,24 @@
         "id": {
           "name": "id",
           "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "post_id": {
-          "name": "post_id",
-          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "author_id": {
-          "name": "author_id",
-          "type": "integer",
+        "guid": {
+          "name": "guid",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "postguid": {
+          "name": "postguid",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userguid": {
+          "name": "userguid",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -42,35 +48,43 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "comments_post_id_posts_id_fk": {
-          "name": "comments_post_id_posts_id_fk",
+        "comments_postguid_posts_guid_fk": {
+          "name": "comments_postguid_posts_guid_fk",
           "tableFrom": "comments",
           "tableTo": "posts",
           "columnsFrom": [
-            "post_id"
+            "postguid"
           ],
           "columnsTo": [
-            "id"
+            "guid"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "comments_author_id_users_id_fk": {
-          "name": "comments_author_id_users_id_fk",
+        "comments_userguid_users_guid_fk": {
+          "name": "comments_userguid_users_guid_fk",
           "tableFrom": "comments",
           "tableTo": "users",
           "columnsFrom": [
-            "author_id"
+            "userguid"
           ],
           "columnsTo": [
-            "id"
+            "guid"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "comments_guid_unique": {
+          "name": "comments_guid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "guid"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -82,18 +96,24 @@
         "id": {
           "name": "id",
           "type": "serial",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guid": {
+          "name": "guid",
+          "type": "uuid",
           "primaryKey": true,
           "notNull": true
         },
         "post_id": {
           "name": "post_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -107,35 +127,43 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "likes_post_id_posts_id_fk": {
-          "name": "likes_post_id_posts_id_fk",
+        "likes_post_id_posts_guid_fk": {
+          "name": "likes_post_id_posts_guid_fk",
           "tableFrom": "likes",
           "tableTo": "posts",
           "columnsFrom": [
             "post_id"
           ],
           "columnsTo": [
-            "id"
+            "guid"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "likes_user_id_users_id_fk": {
-          "name": "likes_user_id_users_id_fk",
+        "likes_user_id_users_guid_fk": {
+          "name": "likes_user_id_users_guid_fk",
           "tableFrom": "likes",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
           "columnsTo": [
-            "id"
+            "guid"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "likes_guid_unique": {
+          "name": "likes_guid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "guid"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -150,9 +178,15 @@
           "primaryKey": true,
           "notNull": true
         },
+        "guid": {
+          "name": "guid",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
         "title": {
           "name": "title",
-          "type": "varchar(255)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -162,9 +196,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "author_id": {
-          "name": "author_id",
-          "type": "integer",
+        "userguid": {
+          "name": "userguid",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -192,22 +226,30 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "posts_author_id_users_id_fk": {
-          "name": "posts_author_id_users_id_fk",
+        "posts_userguid_users_guid_fk": {
+          "name": "posts_userguid_users_guid_fk",
           "tableFrom": "posts",
           "tableTo": "users",
           "columnsFrom": [
-            "author_id"
+            "userguid"
           ],
           "columnsTo": [
-            "id"
+            "guid"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "posts_guid_unique": {
+          "name": "posts_guid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "guid"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -219,14 +261,20 @@
         "id": {
           "name": "id",
           "type": "serial",
-          "primaryKey": true,
+          "primaryKey": false,
           "notNull": true
         },
         "guid": {
           "name": "guid",
           "type": "uuid",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
         },
         "username": {
           "name": "username",
@@ -242,7 +290,7 @@
         },
         "password": {
           "name": "password",
-          "type": "varchar(255)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -270,6 +318,13 @@
           "nullsNotDistinct": false,
           "columns": [
             "guid"
+          ]
+        },
+        "users_token_unique": {
+          "name": "users_token_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "token"
           ]
         },
         "users_email_unique": {
