@@ -1,18 +1,63 @@
-import {createPost,getAllPosts,getPostById,updatePost,deletePost} from "../services/postServices";
+import { createPost ,getPostById,getAllPosts,updatePost} from "../services/postServices";
 import { Request, Response } from "express";
-export const createPostController = async (req: Request, res: Response) => {
-    try {
-        const author_id = parseInt(req.headers['author_id'] as string, 10);
-        if (isNaN(author_id)) {
-            return res.status(400).json({ error: "Invalid or missing author_id in headers" });
+class postcontroller {
+    createPostController = async (req: Request, res: Response) => {
+        try {
+            const userguid = (req as any).user?.userguid;
+            if (!userguid) {
+                return res.status(400).json({ error: "Invalid or missing userid " });
+            }
+            const { title, content, is_public } = req.body;
+            if (!title || !content) {
+                return res.status(400).json({ error: "Title and content are required" });
+            }
+            const newPost = await createPost(title, content, userguid, is_public);
+            res.status(201).json(newPost);
+        } catch (error) {
+            res.status(500).json({ error: (error as Error).message });
         }
-        const { title, content,  is_public } = req.body;
-        if (!title || !content) {
-            return res.status(400).json({ error: "Title and content are required" });
+    };
+
+    getPostById=async(req:Request,res:Response)=>{
+        try{
+            const postId=req.params.guid
+            const userguid=(req as any).user?.userguid
+            if (!postId) {
+                return res.status(400).json({ error: "Invalid or missing userid " });
+            }
+            const postbyid=await getPostById(postId,userguid)
+            res.status(201).json(postbyid)
         }
-        const newPost = await createPost(title, content, author_id, is_public ?? true);
-        res.status(201).json(newPost);
-    } catch (error) {
-        res.status(500).json({ error: (error as Error).message });
+        catch(error){
+            res.status(500).json({message:"Internal server error"})
+        }
     }
-};
+    getallpost=async(req:Request,res:Response)=>{
+        try{
+            const userID=(req as any).user?.userguid;
+            if(!userID){
+                res.status(404).json({message:"userId not found"})
+            }
+            const getall=await getAllPosts(userID)
+            res.status(200).json(getall)
+        }
+        catch(error){
+        res.status(500).json({message:"Internal server Error"})
+        }
+    }
+    upatepost=async(req:Request,res:Response)=>{
+        try{
+            const userId=(req as any).user?.userguid;
+            const guid=req.params.guid;
+            const {title,context,is_boolean}=req.body;
+            const update=await updatePost(guid,userId,title,context,is_boolean)
+            res.status(200).json(update)
+        }
+        catch(error)
+        {
+            res.status(500).json({message:"Internal server error"})
+        }
+    }
+
+}
+export default postcontroller;
