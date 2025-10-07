@@ -1,4 +1,4 @@
-import { createPost ,getPostById,getAllPosts,updatePost} from "../services/postServices";
+import { createPost ,getPostById,getAllPosts,updatePost,deletePost} from "../services/postServices";
 import { Request, Response } from "express";
 class postcontroller {
     createPostController = async (req: Request, res: Response) => {
@@ -58,6 +58,16 @@ class postcontroller {
             res.status(500).json({message:"Internal server error"})
         }
     }
-
+    deletepost=async(req:Request,res:Response)=>{
+        try{
+            const userId=(req as any).user?.userguid;
+            const guid=req.params.guid
+            const deletepost=await deletePost(guid,userId)
+            res.status(200).json({message:"post deleted",deletepost})
+        }
+        catch(error){
+            res.status(500).json({message:"Internal server Error"})
+        }
+    }
 }
 export default postcontroller;

@@ -103,11 +103,17 @@ export const updatePost = async (
     return updatedPost[0];
 };
 
-export const deletePost = async (id: number) => {
-    const existingPost = await db.select().from(posts).where(eq(posts.id, id));
-    if (existingPost.length === 0) {
-        throw new Error("Post not found");
+export const deletePost = async (guid: string,userguid:String) => {
+    const existingPost = await db.select().from(posts).where(eq(posts.guid, guid));
+    if(existingPost.length===0){
+        throw new Error("Nothing to delete")
     }
-    await db.delete(posts).where(eq(posts.id, id));
-    return { message: "Post deleted successfully" };
+    let p=existingPost[0]
+    if(p.userguid!==userguid)
+    {
+        throw new Error("you are not authorized to delte")
+    }
+    const deleted=await db.delete(posts).where(eq(posts.guid,guid))
+    return [{message:`post delted successfully`},deleted]
+    
 };
