@@ -9,7 +9,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const SECRET_KEY = process.env.SECRET_KEY || "this is key";
 const generateToken = (userguid) => {
-    const token = jsonwebtoken_1.default.sign({ userguid }, SECRET_KEY, { expiresIn: "1h" });
+    const token = jsonwebtoken_1.default.sign({ userguid }, SECRET_KEY, { expiresIn: "1d" });
     return token;
 };
 exports.generateToken = generateToken;

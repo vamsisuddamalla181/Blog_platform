@@ -72,6 +72,32 @@ class postcontroller {
                 res.status(500).json({ message: "Internal server error" });
             }
         });
+        this.deletepost = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userguid;
+                const guid = req.params.guid;
+                const deletepost = yield (0, postServices_1.deletePost)(guid, userId);
+                res.status(200).json({ message: "post deleted", deletepost });
+            }
+            catch (error) {
+                res.status(500).json({ message: "Internal server Error" });
+            }
+        });
+        this.deleteall = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                const userID = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userguid;
+                if (userID) {
+                    res.status(404).json({ message: "user id not found" });
+                }
+                const deleteallposts = yield (0, postServices_1.deleteall)(userID);
+                res.status(200).json({ message: "All posts are delted successfully" });
+            }
+            catch (error) {
+                res.status(500).json({ message: "Internl server error" });
+            }
+        });
     }
 }
 exports.default = postcontroller;

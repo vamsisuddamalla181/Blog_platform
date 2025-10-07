@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePost = exports.updatePost = exports.getAllPosts = exports.getPostById = exports.createPost = void 0;
+exports.deleteall = exports.deletePost = exports.updatePost = exports.getAllPosts = exports.getPostById = exports.createPost = void 0;
 const schema_1 = __importDefault(require("../db/schema"));
 const drizzle_orm_1 = require("drizzle-orm");
 const uuid_1 = require("uuid");
@@ -90,12 +90,25 @@ const updatePost = (guid, userguid, title, content, is_public) => __awaiter(void
     return updatedPost[0];
 });
 exports.updatePost = updatePost;
-const deletePost = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const existingPost = yield schema_1.default.select().from(postSchema_1.posts).where((0, drizzle_orm_1.eq)(postSchema_1.posts.id, id));
+const deletePost = (guid, userguid) => __awaiter(void 0, void 0, void 0, function* () {
+    const existingPost = yield schema_1.default.select().from(postSchema_1.posts).where((0, drizzle_orm_1.eq)(postSchema_1.posts.guid, guid));
     if (existingPost.length === 0) {
-        throw new Error("Post not found");
+        throw new Error("Nothing to delete");
     }
-    yield schema_1.default.delete(postSchema_1.posts).where((0, drizzle_orm_1.eq)(postSchema_1.posts.id, id));
-    return { message: "Post deleted successfully" };
+    let p = existingPost[0];
+    if (p.userguid !== userguid) {
+        throw new Error("you are not authorized to delte");
+    }
+    const deleted = yield schema_1.default.delete(postSchema_1.posts).where((0, drizzle_orm_1.eq)(postSchema_1.posts.guid, guid));
+    return [{ message: `post delted successfully` }, deleted];
 });
 exports.deletePost = deletePost;
+const deleteall = (userguid) => __awaiter(void 0, void 0, void 0, function* () {
+    const existinguser = yield schema_1.default.select().from(postSchema_1.posts).where((0, drizzle_orm_1.eq)(postSchema_1.posts.userguid, userguid));
+    if (existinguser.length === 0) {
+        throw new Error("Nothing to delete");
+    }
+    const deleted = yield schema_1.default.delete(postSchema_1.posts).where((0, drizzle_orm_1.eq)(postSchema_1.posts.userguid, userguid));
+    return [{ message: `post delted successfully` }, deleted];
+});
+exports.deleteall = deleteall;

@@ -12,5 +12,6 @@ postrouter.post("/createpost", authmiddleware_1.authMiddleware, post.createPostC
 postrouter.get("/getallposts", authmiddleware_1.authMiddleware, post.getallpost);
 postrouter.get("/getpostbyid/:guid", authmiddleware_1.authMiddleware, post.getPostById);
 postrouter.put("/updatepost/:guid", authmiddleware_1.authMiddleware, post.upatepost);
-// router.delete("/deletepost/:id",postController.deletePostController);
+postrouter.delete("/deletePost/:guid", authmiddleware_1.authMiddleware, post.deletepost);
+postrouter.delete("/deleteall", authmiddleware_1.authMiddleware, post.deleteall);
 exports.default = postrouter;

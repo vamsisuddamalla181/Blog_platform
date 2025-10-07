@@ -117,3 +117,13 @@ export const deletePost = async (guid: string,userguid:String) => {
     return [{message:`post delted successfully`},deleted]
     
 };
+
+export const deleteall = async (userguid:string) => {
+    const existinguser = await db.select().from(posts).where(eq(posts.userguid,userguid));
+    if(existinguser.length===0){
+        throw new Error("Nothing to delete")
+    }
+    const deleted=await db.delete(posts).where(eq(posts.userguid,userguid))
+    return [{message:`post delted successfully`},deleted]
+    
+};

@@ -3,10 +3,10 @@ import { users } from "./userSchema";
 import { posts } from "./postSchema";
 
 export const comments = pgTable("comments", {
-  id: serial("id").primaryKey(),
-  guid:uuid("guid").notNull().unique(),
-  post_id: integer("post_id").references(() => posts.id).notNull(),
-  author_id: integer("author_id").references(() => users.id).notNull(),
+  id: serial("id"),
+  guid:uuid("guid").notNull().unique().primaryKey(),
+  postguid: uuid("postguid").references(() => posts.guid).notNull(),
+  authorguid: uuid("userguid").references(() => users.guid).notNull(),
   text: text("text").notNull(),
   created_at: timestamp("created_at").defaultNow(),
 });
