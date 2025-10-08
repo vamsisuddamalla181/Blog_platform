@@ -6,7 +6,8 @@ export const comments = pgTable("comments", {
   id: serial("id"),
   guid:uuid("guid").notNull().unique().primaryKey(),
   postguid: uuid("postguid").references(() => posts.guid).notNull(),
-  authorguid: uuid("userguid").references(() => users.guid).notNull(),
+  userguid: uuid("userguid").references(() => users.guid).notNull(),
   text: text("text").notNull(),
   created_at: timestamp("created_at").defaultNow(),
+  updated_at:timestamp("updated_at")
 });

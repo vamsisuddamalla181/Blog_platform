@@ -5,7 +5,7 @@ const likerouter=express.Router()
 const likesController = new LikesController();
 
 likerouter.post("/like", likesController.addLike);
-likerouter.delete("/like", likesController.removeLike);
+likerouter.delete("/dislike", likesController.removeLike);
 likerouter.get("/count/:postguid", likesController.getLikesCount);
 likerouter.get("/isLiked/:userguid/:postguid", likesController.isLikedByUser);
 
