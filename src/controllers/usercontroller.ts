@@ -1,4 +1,5 @@
 import {signup,login,getUserByApiKey,getallusers} from "../services/userServices";
+import { sendWelcomeEmail } from "../services/mailer";
 import { Request, Response } from "express";
 import v4 from "uuid";
 import {generateToken} from "../utils/tokengenreation";
@@ -6,6 +7,12 @@ export const signupController = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
     try {
         const user = await signup(username, email, password);
+        // Send welcome email asynchronously; do not block signup on email errors
+        if (user && user.email) {
+            sendWelcomeEmail(user.email, user.username)
+            .then(() => console.log('Welcome email sent successfully'))
+            .catch(err => console.error('Welcome email failed:', err));
+        }
         res.status(201).json({ message: "User created successfully", user });
     } catch (error) {
         res.status(500).json({ message: (error as Error).message });
