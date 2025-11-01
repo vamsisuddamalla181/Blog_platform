@@ -17,9 +17,9 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
         if (!userr || userr.length === 0) {
             return res.status(401).json({ message: "Invalid token" });
         }
-        (req as any).user = { userguid: decoded.userguid }; 
+        (req as any).user = { userguid: decoded.userguid };
         next();
     } catch (error) {
-        return res.status(401).json({ message: "Failed to authenticate token" });
+        return res.status(401).json({ message:error });
     } 
 }
