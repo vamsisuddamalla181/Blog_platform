@@ -129,3 +129,193 @@ export const sendPasswordResetEmail = async (to: string, resetLink: string) => {
     const info = await transporter.sendMail(mailOptions);
     return info;
 };
+
+export const sendVerificationEmail = async (to: string, verificationLink: string, username?: string) => {
+    const from = process.env.SMTP_FROM || process.env.SMTP_USER || 'no-reply@example.com';
+    const subject = 'Verify Your Email - Blog Platform';
+    const text = `Hi ${username || ''},\n\nThank you for signing up! Please verify your email address by clicking the link below:\n${verificationLink}\n\nThis link will expire in 24 hours.\n\nBest,\nThe Blog Platform team`;
+    const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background-color: #f7f9fc;
+      font-family: 'Arial', sans-serif;
+      color: #444;
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      background-color: #ffffff;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    .header {
+      text-align: center;
+      color: #333;
+    }
+    .header h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #3f51b5;
+    }
+    .content {
+      margin: 20px 0;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #3f51b5;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 6px;
+      margin-top: 20px;
+      transition: 0.3s;
+    }
+    .button:hover {
+      background-color: #303f9f;
+    }
+    .footer {
+      font-size: 12px;
+      color: #aaaaaa;
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📧 Verify Your Email</h1>
+    </div>
+
+    <div class="content">
+      <p>Hi ${username || 'there'},</p>
+      <p>Thank you for signing up for <strong>Blog Platform</strong>!</p>
+      <p>To complete your registration, please verify your email address by clicking the button below:</p>
+      
+      <div style="text-align: center;">
+        <a href="${verificationLink}" class="button">Verify Email</a>
+      </div>
+      
+      <p style="margin-top: 20px; font-size: 14px; color: #666;">
+        This link will expire in 24 hours. If you did not create this account, please ignore this email.
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>© ${new Date().getFullYear()} Blog Platform. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
+`;
+
+    const mailOptions = {
+        from,
+        to,
+        subject,
+        text,
+        html,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    return info;
+};
+
+export const sendPasswordResetConfirmationEmail = async (to: string, username?: string) => {
+    const from = process.env.SMTP_FROM || process.env.SMTP_USER || 'no-reply@example.com';
+    const subject = 'Password Successfully Reset';
+    const text = `Hi ${username || ''},\n\nYour password has been successfully reset.\n\nIf you did not make this change, please contact our support team immediately.\n\nBest,\nThe Blog Platform team`;
+    const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background-color: #f7f9fc;
+      font-family: 'Arial', sans-serif;
+      color: #444;
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      background-color: #ffffff;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    .header {
+      text-align: center;
+      color: #333;
+    }
+    .header h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #4caf50;
+    }
+    .content {
+      margin: 20px 0;
+    }
+    .alert {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .footer {
+      font-size: 12px;
+      color: #aaaaaa;
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>✅ Password Reset Successful</h1>
+    </div>
+
+    <div class="content">
+      <p>Hi ${username || 'there'},</p>
+      <p>Your password has been <strong>successfully reset</strong>.</p>
+      <p>You can now log in to your account using your new password.</p>
+    </div>
+
+    <div class="alert">
+      <strong>⚠️ Didn't make this change?</strong><br/>
+      If you did not reset your password, please contact our support team immediately.
+    </div>
+
+    <div class="footer">
+      <p>© ${new Date().getFullYear()} Blog Platform. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
+`;
+
+    const mailOptions = {
+        from,
+        to,
+        subject,
+        text,
+        html,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    return info;
+};

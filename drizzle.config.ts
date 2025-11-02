@@ -6,7 +6,7 @@ export default defineConfig({
   dialect: "postgresql",          // Database type
   dbCredentials: {
     host: "localhost",            // Your DB host
-    port: 5003,                   // Default PostgreSQL port
+    port: 5001,                   // Updated to match local Postgres config
     user: "postgres",             // Your DB user
     password: "Vamsi@123",    // Your DB password
     database: "mydb",          // Your database name

@@ -1,1 +1,1 @@
-ALTER TABLE "comments" ADD COLUMN "updated_at" timestamp;
+ALTER TABLE "comments" ADD COLUMN IF NOT EXISTS "updated_at" timestamp;
